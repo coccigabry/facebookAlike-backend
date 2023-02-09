@@ -1,4 +1,4 @@
-# Facebook-Alike Social App (backend)
+# Facebook-Clone Social Media App (backend)
 
 Stay connected with your friends and get real time notifications with this Facebook clone!
 <br>

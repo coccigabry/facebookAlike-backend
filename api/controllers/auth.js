@@ -1,8 +1,8 @@
 import User from "../models/User.js"
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 
-// REGISTER
 export const registerCtrl = async (req, res) => {
     try {
         const hashedPsw = await bcrypt.hash(req.body.password, 10)
@@ -23,7 +23,6 @@ export const registerCtrl = async (req, res) => {
     }
 }
 
-// LOGIN
 export const loginCtrl = async (req, res) => {
     try {
         const user = await User.findOne({ username: req.body.username })
@@ -32,9 +31,15 @@ export const loginCtrl = async (req, res) => {
         const isPswCorrect = await bcrypt.compare(req.body.password, user.password)
         !isPswCorrect && res.status(401).send('Wrong credentials')
 
+        const accessToken = jwt.sign(
+            { id: user._id, isAdmin: user.IsAdmin },
+            process.env.JWT_SECRET,
+            { expiresIn: '1d' }
+        )
+
         const { password, ...other } = user._doc
 
-        res.status(201).json({ message: 'User logged successfully', infos: other })
+        res.status(201).json({ message: 'User logged successfully', infos: { other, accessToken } })
     } catch (err) {
         res.status(500).json({ message: 'There was an error', infos: err })
     }

@@ -14,9 +14,28 @@ export const registerCtrl = async (req, res) => {
         })
 
         await newUser.save()
-        res.status(201).json(newUser)
+
+        const { password, ...other } = newUser._doc
+
+        res.status(201).json({ message: 'User created successfully', infos: other })
     } catch (err) {
-        res.send(500).json(err)
+        res.status(500).json({ message: 'There was an error', infos: err })
     }
 }
+
 // LOGIN
+export const loginCtrl = async (req, res) => {
+    try {
+        const user = await User.findOne({ username: req.body.username })
+        !user && res.status(401).send('This username does not exist')
+
+        const isPswCorrect = await bcrypt.compare(req.body.password, user.password)
+        !isPswCorrect && res.status(401).send('Wrong credentials')
+
+        const { password, ...other } = user._doc
+
+        res.status(201).json({ message: 'User logged successfully', infos: other })
+    } catch (err) {
+        res.status(500).json({ message: 'There was an error', infos: err })
+    }
+}

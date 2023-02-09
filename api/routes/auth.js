@@ -1,5 +1,5 @@
 import express from 'express'
-import { registerCtrl } from '../controllers/auth.js'
+import { registerCtrl, loginCtrl } from '../controllers/auth.js'
 
 
 const router = express.Router()
@@ -7,6 +7,7 @@ const router = express.Router()
 // REGISTER
 router.post('/register', registerCtrl)
 // LOGIN
+router.post('/login', loginCtrl)
 
 
 export default router

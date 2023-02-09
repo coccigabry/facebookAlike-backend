@@ -32,7 +32,7 @@ app.use('/api/users', userRoute)
 
 
 app.get('/', (req, res) => {
-    res.send('welcome to Tijuana')
+    res.send('Welcome to Tijuana...')
 })
 
 app.listen(4000, () => {

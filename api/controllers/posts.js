@@ -45,7 +45,7 @@ export const getCtrl = async (req, res) => {
 
 export const timelineCtrl = async (req, res) => {
     try {
-        const currentUser = await User.findById(req.body.userId)
+        const currentUser = await User.findById(req.params.userId)
         const userPosts = await Post.find({ userId: currentUser._id })
         const friendsPosts = await Promise.all(
             currentUser.following.map(friendId => {

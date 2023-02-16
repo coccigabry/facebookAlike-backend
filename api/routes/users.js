@@ -10,7 +10,7 @@ router.put('/:id', verifyUser, updateCtrl)
 // DELETE USER
 router.delete('/:id', verifyUser, deleteCtrl)
 // GET USER
-router.get('/:id', verifyUser, getCtrl)
+router.get('/:id', /* verifyUser, */ getCtrl)
 // FOLLOW USER
 router.put('/:id/follow', verifyToken, followCtrl)
 // UNFOLLOW USER

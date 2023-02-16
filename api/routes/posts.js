@@ -14,7 +14,7 @@ router.delete('/:id', verifyToken, deleteCtrl)
 // GET POST
 router.get('/:id', getCtrl)
 // GET FOLLOWING USERS POSTS
-router.get('/timeline/all', verifyToken, timelineCtrl)
+router.get('/timeline/:userId', /* verifyToken, */ timelineCtrl)
 // LIKE POST
 router.put('/:id/like', verifyToken, likeCtrl)
 

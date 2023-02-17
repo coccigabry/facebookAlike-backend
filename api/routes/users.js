@@ -6,15 +6,15 @@ import { updateCtrl, deleteCtrl, getCtrl, followCtrl, unfollowCtrl } from '../co
 const router = express.Router()
 
 // UPDATE USER
-router.put('/:id', verifyUser, updateCtrl)
+router.put('/:id', /* verifyUser, */ updateCtrl)
 // DELETE USER
-router.delete('/:id', verifyUser, deleteCtrl)
+router.delete('/:id', /* verifyUser, */ deleteCtrl)
 // GET USER
 router.get('/:id', /* verifyUser, */ getCtrl)
 // FOLLOW USER
-router.put('/:id/follow', verifyToken, followCtrl)
+router.put('/:id/follow', /* verifyToken, */ followCtrl)
 // UNFOLLOW USER
-router.put('/:id/unfollow', verifyToken, unfollowCtrl)
+router.put('/:id/unfollow', /* verifyToken, */ unfollowCtrl)
 
 
 export default router

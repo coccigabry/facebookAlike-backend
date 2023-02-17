@@ -25,7 +25,7 @@ export const registerCtrl = async (req, res) => {
 
 export const loginCtrl = async (req, res) => {
     try {
-        const user = await User.findOne({ username: req.body.username })
+        const user = await User.findOne({ email: req.body.email })
         !user && res.status(401).send('This username does not exist')
 
         const isPswCorrect = await bcrypt.compare(req.body.password, user.password)

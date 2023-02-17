@@ -43,6 +43,16 @@ export const getCtrl = async (req, res) => {
     }
 }
 
+export const userTimelineCtrl = async (req, res) => {
+    try {
+        const currentUser = await User.findById(req.params.userId)
+        const userPosts = await Post.find({ userId: currentUser._id })
+        res.status(201).json({ message: 'User Timeline loaded successfully', infos: userPosts })
+    } catch (err) {
+        res.status(500).json({ message: 'There was an error', infos: err })
+    }
+}
+
 export const timelineCtrl = async (req, res) => {
     try {
         const currentUser = await User.findById(req.params.userId)
@@ -61,6 +71,7 @@ export const timelineCtrl = async (req, res) => {
 export const likeCtrl = async (req, res) => {
     try {
         const post = await Post.findById(req.params.id)
+
         if (!post.likes.includes(req.body.userId)) {
             await post.updateOne({ $push: { likes: req.body.userId } })
             res.status(201).json({ message: 'You like it' })
@@ -72,12 +83,3 @@ export const likeCtrl = async (req, res) => {
         res.status(500).json({ message: 'There was an error', infos: err })
     }
 }
-
-
-
-
-
-
-
-
-

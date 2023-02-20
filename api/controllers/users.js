@@ -42,6 +42,25 @@ export const getCtrl = async (req, res) => {
     }
 }
 
+export const getFriendsCtrl = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id)
+        const userFriends = await Promise.all(
+            user.following.map(friendId => {
+                return User.findById(friendId)
+            })
+        )
+        let friendsList = []
+        userFriends.map(friend => {
+            const { _id, username, profilePicture } = friend
+            friendsList.push({ _id, username, profilePicture })
+        })
+        res.status(201).json({ message: 'Friend List found successfully', infos: friendsList })
+    } catch (err) {
+        res.status(500).json({ message: 'There was an error', infos: err })
+    }
+}
+
 export const followCtrl = async (req, res) => {
     if (req.body.userId !== req.params.id) {
         try {
@@ -65,10 +84,10 @@ export const followCtrl = async (req, res) => {
 export const unfollowCtrl = async (req, res) => {
     if (req.body.userId !== req.params.id) {
         try {
-            const userToFollow = await User.findById(req.params.id)
+            const userToUnfollow = await User.findById(req.params.id)
             const currentUser = await User.findById(req.body.userId)
-            if (userToFollow.followers.includes(req.body.userId)) {
-                await userToFollow.updateOne({ $pull: { followers: req.body.userId } })
+            if (userToUnfollow.followers.includes(req.body.userId)) {
+                await userToUnfollow.updateOne({ $pull: { followers: req.body.userId } })
                 await currentUser.updateOne({ $pull: { following: req.params.id } })
                 res.status(201).json({ message: 'You are not following this user anymore!' })
             } else {
